@@ -71,7 +71,7 @@
 		<h2>Project Design:</h2>
 		<p>We decided to start by creating a simple track with 4 bezier curves and 13 control points:</p>
 
-		<p style="padding-left:30px;"><a href="CSE167imgs/defaulttrack.png"><img alt="defaultTrack" src="CSE167imgs/defaulttrack.png" width="144" height="216" /></a></p>
+		<p style="padding-left:30px;"><a href="CSE167imgs/defaultTrack.png"><img alt="defaultTrack" src="CSE167imgs/defaultTrack.png" width="144" height="216" /></a></p>
 
 		<p>This curve will span the x and y plane, and will be rotated.  The camera will then be set to travel down the track by modifying the camera's center and eye position according to the points calculated on the curve.  The curve will also be able to be moved in the z plane to create hills.
 
@@ -79,7 +79,7 @@
 
 		To create the track, we decided to use multiple curves along our chosen path and use GL_QUAD_STRIPS to created the path.  we decided to make partial scenery on both sides of the track in a similar way, where we draw the scenery along the curves as we go:</p>
 
-		<p style="padding-left:30px;"><a href="CSE167imgs/trackscene.png"><img alt="trackScene" src="CSE167imgs/trackscene.png" width="144" height="216" /></a></p>
+		<p style="padding-left:30px;"><a href="CSE167imgs/trackScene.png"><img alt="trackScene" src="CSE167imgs/trackScene.png" width="144" height="216" /></a></p>
 
 		<p>For embellishments, we plan to use a grass or dirt texture for the scenery, and setting the background color of the opengl window to blue.  We will also use a road texture with lines to create a 2-lane road.  We will also be using shading, but have not decided which type to use.  Options we debated are toon-shading or shadow mapping and shadow volumes.  We have not decided if we want to create a realistic or cartoon style scene.
 		</p>
@@ -106,12 +106,12 @@
 
 			<p>We created a track() class, with 3 draw methods.  drawPoints, which draws the control points, drawCurves(), which draws the red bezier curve, and drawTrack(), which draws the actual track.  In edit mode, drawPoints() and drawCurves() are called, while in game mode, only drawTrack() will be called.  Currently, we have game mode also call drawCurves() for debugging.  In edit mode, we disable GL_LIGHTING.</p>
 
-			<p style="padding-left:30px;"><a href="CSE167imgs/week0editmode.png"><img class="alignnone size-full wp-image-9" alt="Week0EditMode" src="CSE167imgs/week0editmode.png" width="141" height="226" /></a></p>
+			<p style="padding-left:30px;"><a href="CSE167imgs/week0EditMode.png"><img class="alignnone size-full wp-image-9" alt="week0EditMode" src="CSE167imgs/week0EditMode.png" width="141" height="226" /></a></p>
 
 			<p>In edit mode, we can currently rotate the track.  Adjusting control points is not implemented yet.</p>
 
 		<h3>Game Mode:</h3>
-			<p style="padding-left:30px;"><a href="CSE167imgs/week0gamemode.png"><img class="alignnone size-medium wp-image-10" alt="Week0GameMode" src="CSE167imgs/week0gamemode.png" width="300" height="154" /></a></p>
+			<p style="padding-left:30px;"><a href="CSE167imgs/week0GameMode.png"><img class="alignnone size-medium wp-image-10" alt="week0GameMode" src="CSE167imgs/week0GameMode.png" width="300" height="154" /></a></p>
 
 			<p>In game mode, we have temporarily found a general initial camera position using translation matrices.   The user can use the keys up, down, left, and right to move the camera position.  Currently, there are no restrictions on the amount you can translate the camera.  Camera following the curve is not implemented yet.</p>
 
