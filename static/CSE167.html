@@ -1,0 +1,378 @@
+<!doctype html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>HCI Project Portfolio - CSE167</title>
+
+	<style>
+	.container { position:relative; padding:0 0 0 105px; }
+	#sidebar {
+	    position:fixed;
+	    top:0; bottom:0; left:0;
+	    width:100px;
+	    background:#B8DBFF;
+	    
+	}
+
+	#item1 { border:1px solid #000;  
+	    margin:0 0 5px 0;
+	}
+	#item2 { border:1px solid #000; 
+	    margin:5px 0 5px 0;
+	}
+	#item3 { border:1px solid #000; 
+	    margin:5px 0 0 0;
+	}
+	#item4 { border:1px solid #000; 
+	    margin:5px 0 0 0;
+	}
+	</style>
+
+
+
+</head>
+
+<body>
+
+<div class="container">
+	<div id="sidebar">
+		<ul style="list-style-type: none; margin:0; padding:0;">
+		  <li><a href="index.html">Home</a></li>
+		  <li><a href="CSE167.html">CSE167</a></li>
+		  <ul style="list-style-type: none; margin:0; padding-left:10px;">
+			  <li><a href="#item1">Week 0</a></li>
+			  <li><a href="#item2">Week 1</a></li>
+			  <li><a href="#item3">Week 2</a></li>
+			  <li><a href="#item4">Week 3</a></li>
+		  </ul>
+		  <li><a href="CSE168.html">CSE168</a></li>
+		  <li><a href="CSE169.html">CSE169</a></li>
+		  <li><a href="contact.html">Contact Info</a></li>
+		</ul>
+	</div>
+
+	<div>
+	<h1>CSE167 Project: Kart-Mania<h1>
+
+	<h2>Team and Project Information<h2>
+		<p>A play on Mario Kart</p>
+
+	<h3>Team Members:</h3>
+		<ul>
+			<li>Nick Troast</li>
+			<li>Andrew Lin</li>
+			<li>Monica Liu</li>
+		</ul>
+
+	<h2>Project Description:</h2>
+		<p>A user navigates a car down a track created by a bezier curve.  The user attempts to complete the course without crashing into objects on the road.</p>
+
+		<h2>Project Design:</h2>
+		<p>We decided to start by creating a simple track with 4 bezier curves and 13 control points:</p>
+
+		<p style="padding-left:30px;"><a href="CSE167imgs/defaulttrack.png"><img alt="defaultTrack" src="CSE167imgs/defaulttrack.png" width="144" height="216" /></a></p>
+
+		<p>This curve will span the x and y plane, and will be rotated.  The camera will then be set to travel down the track by modifying the camera's center and eye position according to the points calculated on the curve.  The curve will also be able to be moved in the z plane to create hills.
+
+		We decided the easiest way to make edits to our curve and make sure our camera can follow the track would be to implement two modes, an "edit mode" and a "game mode".  In edit mode, you can rotate the track and adjust the control points, so that we can flexibly re-design our track as we see fit.  In game mode, we scale the track up and move the camera to a starting point on the track.
+
+		To create the track, we decided to use multiple curves along our chosen path and use GL_QUAD_STRIPS to created the path.  we decided to make partial scenery on both sides of the track in a similar way, where we draw the scenery along the curves as we go:</p>
+
+		<p style="padding-left:30px;"><a href="CSE167imgs/trackscene.png"><img alt="trackScene" src="CSE167imgs/trackscene.png" width="144" height="216" /></a></p>
+
+		<p>For embellishments, we plan to use a grass or dirt texture for the scenery, and setting the background color of the opengl window to blue.  We will also use a road texture with lines to create a 2-lane road.  We will also be using shading, but have not decided which type to use.  Options we debated are toon-shading or shadow mapping and shadow volumes.  We have not decided if we want to create a realistic or cartoon style scene.
+		</p>
+
+
+	<h2>Technical Points:</h2>
+		<ul>
+			<li>moving camera and car along the bezier curve</li>
+			<li>shading (type undecided)</li>
+			<li>procedurally generated scenery</li>
+			<li>Collision Detection</li>
+		</ul>
+	</div>
+
+
+<div id="item1">
+	<h2>Week 0</h2>
+		<p>Since we formed our group early, we also started on the project a week early.  This post is for the work we did before the first official turn in, Week 1. </p>
+
+		<h3>Edit Mode:</h3>
+			<p>We completed the bezier curve referencing homework 6 for help:</p>
+
+			<p style="padding-left:30px;"><a href="CSE167imgs/week0curve.png"><img class="alignnone size-full wp-image-8" alt="week0curve" src="CSE167imgs/week0curve.png" width="149" height="223" /></a></p>
+
+			<p>We created a track() class, with 3 draw methods.  drawPoints, which draws the control points, drawCurves(), which draws the red bezier curve, and drawTrack(), which draws the actual track.  In edit mode, drawPoints() and drawCurves() are called, while in game mode, only drawTrack() will be called.  Currently, we have game mode also call drawCurves() for debugging.  In edit mode, we disable GL_LIGHTING.</p>
+
+			<p style="padding-left:30px;"><a href="CSE167imgs/week0editmode.png"><img class="alignnone size-full wp-image-9" alt="Week0EditMode" src="CSE167imgs/week0editmode.png" width="141" height="226" /></a></p>
+
+			<p>In edit mode, we can currently rotate the track.  Adjusting control points is not implemented yet.</p>
+
+		<h3>Game Mode:</h3>
+			<p style="padding-left:30px;"><a href="CSE167imgs/week0gamemode.png"><img class="alignnone size-medium wp-image-10" alt="Week0GameMode" src="CSE167imgs/week0gamemode.png" width="300" height="154" /></a></p>
+
+			<p>In game mode, we have temporarily found a general initial camera position using translation matrices.   The user can use the keys up, down, left, and right to move the camera position.  Currently, there are no restrictions on the amount you can translate the camera.  Camera following the curve is not implemented yet.</p>
+
+		<h3>Problems:</h3>
+			<h4>Drawing the track</h4>
+				<p>We ran into a problem when we attempted to draw the track.  If we simple scaled or translated the bezier curve to create the track, the track would become slightly distorted.  We fixed this by drawing the inner and outer curves along points in the normals of the original curve </p>
+			<h4>C1 continuity</h4>
+				<p>We achieved c0 continuity by using pointers for the control points in our bezier curve class.  This way, the ending and starting point can be the same point.  However,  when we attempted to move a control point, we noticed we did not have C1 continuity. </p>
+			<h4>Z-direction</h4>
+				<p>From our previous assignment, our bezier curve class can calculate tangents and normals for itself, however, it does not work in the z-direction.  Our original design was to draw the bezier curve in the x,z plane, however this problem led us to draw it in the x,y plane, then rotate the track. </p>
+		<h3>Goals for Next week:</h3>
+			<ol>
+				<li>Achieve C1 continuity</li>
+				<li>Add control point moving in edit mode</li>
+				<li>Add z-direction support</li>
+				<li>Add a camera at the correct position</li>
+				<li>possibly have the camera follow the curve by the end of the week</li>
+			</ol>
+</div>
+
+<div id="item2">
+	<h2>Week 1</h2>
+		<p>We created a camera which starts at this initial position:</p>
+
+		<p style="padding-left:30px;"><a href="CSE167imgs/week1camera.png"><img class="alignnone size-medium wp-image-17" alt="week1camera" src="CSE167imgs/week1camera.png" width="300" height="300" /></a></p>
+
+		<p>The camera now follows the track, including the curves using the up key:</p>
+
+		<p style="padding-left:30px;"><a href="CSE167imgs/week1camfollowroad.png"><img class="alignnone size-medium wp-image-18" alt="week1camfollowroad" src="CSE167imgs/week1camfollowroad.png" width="300" height="300" /></a></p>
+
+		<p>We also finished mapping a road texture to the track.</p>
+
+		<p style="padding-left:30px;"><a href="CSE167imgs/week1texture.png"><img class="alignnone size-medium wp-image-19" alt="week1texture" src="CSE167imgs/week1texture.png" width="300" height="300" /></a></p>
+
+		<p>We fixed near-plane clipping (oblique view frustum)  which can be toggled on and off with the 'o' key:</p>
+
+		<p style="padding-left:30px;"><a href="CSE167imgs/week1frustum.png"><img class="alignnone size-medium wp-image-20" alt="week1frustum" src="CSE167imgs/week1frustum.png" width="298" height="300" /></a></p>
+
+	<h3>Problems Along the Way:</h3>
+
+		<p>A problem we ran into while creating the camera was the camera orientation.  At first, we were caught in a bird's eye view of the track.  We fixed this with rotations in the camera.  we also found, once we fixed the rotation, that our camera was under the track, not above it.  When we moved the camera to the correct position above the track by changing the camera's "up" vector, we realized the camera was traveling backwards. </p>
+
+		<p>In order to fix the new problem, we had to switch the order the control points were drawn to make the camera move the correct direction. </p>
+
+		<p>When we tried to get the camera to follow the track by looking at the points on the curve, we realized we were having pointer problems in our getNext() method, which returns the next point on the track.  The problem was caused by discontinuity between the different curves on the track.  we fixed these pointers so that the iteration through the track curves was receiving points from the track. </p>	
+
+		<p> Another problem we faced was placing textures on quad-strips for the texture. Difficulties arose because each strip could not be mapped on a 1 to 1 ratio with the texture because we needed it to be modular. By mapping it one to one, you could not create a line stipple texture that spanned across multiple strips. Another issue with using 1 to 1 ratio is that in order to get viewable line stipples, each quad-strip would need to be pretty big, which would make the edges of track curves jagged, rather than smooth. To resolve this issue we spanned the texture across X(variable amount depending on texture) numbers of quad strips and played around with the number, while keeping track of which iteration we were in and restarted the texture when the loop reached (X+1).
+		</p>
+
+	<h3>Existing Problems:</h3>
+		<p>We did not achieve C1 continuity this week.  Partly because the ability to edit control points in edit mode was partially implemented, but not finished this week. </p>
+
+		<p>The track will not draw until you've hit the "up" arrow key at least once.</p>
+
+	<h3>Goals for next week:</h3>
+		<ol>
+			<li>Fix existing problems</li>
+			<li>Generate simple scenery</li>
+			<li>Make a simple model car</li>
+		<li>Achieve C1 continuity</li>
+		</ol>
+</div>
+
+<div id="item3">
+	<h2>Week 2</h2>
+
+	<h4>Added a model car</h4>
+	<ol>
+		<li>Merged obFrustum and Mode toggling boolean switches.  Now going to the track will automatically disable the near frustum culling, giving us a nice game perspective of the road and car, while edit mode will still have culling.</li>
+		<li>Added Sky by changing the background color to blue</li>
+	</ol>
+
+	<p style="padding-left:30px;"><a href="CSE167imgs/week2gamemode.png"><img class="alignnone size-medium wp-image-37" alt="week2gamemode" src="CSE167imgs/week2gamemode.png" width="300" height="296" /></a></p>
+
+	<ol>
+		<li>changed moving along the track from the up arrow key to an idle callback so that the car is continually moving</li>
+		<li>added ability to move car left and right with left and right arrow keys</li>
+		<li>finalized the road texture and set it, removing the ability to toggle it on and off. There is also the option to increase the number of lanes.</li>
+	</ol>
+
+	<p style="padding-left:30px;"><a href="CSE167imgs/week2drivingcar.png"><img class="alignnone size-medium wp-image-38" alt="week2drivingcar" src="CSE167imgs/week2drivingcar.png" width="300" height="300" /></a></p>
+
+	<p>c1 continuity in the z-direction when adding in hills:<p>
+
+	<p style="padding-left:30px;"><a href="CSE167imgs/week2editmode2.png"><img class="alignnone size-medium wp-image-36" alt="week2editmode2" src="CSE167imgs/week2editmode2.png" width="289" height="300" /></a></p>
+
+	<p>We wanted to add a flame particle effect to the output of the exhaust for 2 technical points. This was implemented by using the parametric equation of a cone to form the shape of the flame. Then GL_POINTS were moved along the z-axis, and the angle about the cone was changed to create a spiraling effect. Finally the colors were interpolated along the z-axis to create the flaming colors going from white to yellow, then yellow to red.</p>
+
+	<p style="padding-left:30px;"><a href="CSE167imgs/week2fire.png"><img class="alignnone size-medium wp-image-45" alt="week2fire" src="CSE167imgs/week2fire.png" width="290" height="300" /></a></p>
+
+	<p>Added objects on road, with bounding spheres around each object and the car.  we loop through and compare the car's bounding sphere to each object's bounding sphere.  To start with, we print out a "crash!" message to the console upon collision.</p>
+
+	<p style="padding-left:30px;"><a href="CSE167imgs/week2objects.png"><img class="alignnone size-medium wp-image-46" alt="week2objects" src="CSE167imgs/week2objects.png" width="300" height="224" /></a></p>
+
+	<h4>Added Terrain:</h4>
+
+	<p style="padding-left:30px;">In generating the terrain, we were aiming for a canyon effect and there were many factors that could affect implementation.</p>
+
+	<ol>
+		<ol>
+			<li>Base Terrain - There needed to be some sort of base (in 2d, a line, 3d, a plane) as a starting point for our terrain. We tried various orientations, summarized by three major ones.
+			<ol>
+				<li>Flat ground alongside the track (Terrain was pre-set in the outward direction and  set to 0 in the upward direction)</li>
+				<li>Hill at 45 Degrees (Terrain was pre-set in both the outward direction and upward direction.</li>
+				<li>Wall at 90 Degrees (Terrain was pre-set in the upward direction and 0 in the outward direction).</li>
+			</ol>
+			<li>Randomness in Vertices
+			<ol>
+				<li>Relative vs Fixed Point Translation
+				<ol>
+					<li>Fixed Point Translation - Points are translated a set distance from the track, then shifted at a random distance within a range.</li>
+					<li>Relative Translation - Points are translated at a location relative to the corresponding point in the lower level, then randomly shifted.</li>
+				</ol>
+			</ol>
+		</ol>
+	</ol>
+
+	<p style="padding-left:120px;">Fixed Point Translation ensures the overall terrain is within a certain max height/width range however, if it could pose problems for the texture. If there are two vertices, one at its min and the other at its max, the quad can be much bigger than the others, causing stretching in the texture if not taken care of properly.</p>
+
+	<p style="padding-left:120px;">Relative Translation addresses some of the issues above, however, the terrain at the very top may be very jagged.</p>
+
+	<p style="padding-left:120px;"> <a href="CSE167imgs/1.jpg"><img class="alignnone size-medium wp-image-61" alt="1" src="CSE167imgs/1.jpg" width="300" height="300" /></a></p>
+
+	<p style="padding-left:120px;">Above: Fixed point on left, Relative on right.</p>
+
+	<p style="padding-left:120px;"><a href="CSE167imgs/2.jpg"><img class="alignnone size-medium wp-image-62" alt="2" src="CSE167imgs/2.jpg" width="300" height="300" /></a></p>
+
+	<p style="padding-left:120px;">Above: Fixed Point with random shifting</p>
+
+	<p style="padding-left:120px;"><a style="font-style:inherit;line-height:1.625;text-decoration:underline;" href="CSE167imgs/3.jpg"><img class="alignnone size-medium wp-image-60" style="border-color:#bbbbbb;background-color:#eeeeee;" alt="3" src="CSE167imgs/3.jpg" width="300" height="300" /></a></p>
+
+	<p style="padding-left:120px;">Above: Relative with shifting</p>
+
+	<ol>
+		<ol>
+			<ol>
+				<li>Vertex Component Randomness: X/Y Randomness vs Outward randomness
+				<ol>
+					<li>X/Y Randomness - Randomness is generated for both the X and Y components of each 	vertex</li>
+					<li>Outward/Normal randomness - Randomness is only generated in the direction of the normal</li>
+				</ol>
+			</ol>
+		</ol>
+	</ol>
+
+	<p style="padding-left:120px;">X/Y Randomness can allow the terrain to be even more random and have some interesting results, however, the randomness range in the X and Y components need to be changed when changing locations on the track or else vertices may cross over each other, thus reversing the normal plane and texture.</p>
+
+	<p style="padding-left:120px;">Outward/Normal randomness resolves the above problem because it only shifts the vertices in a path normal to the track.</p>
+
+	<p style="padding-left:30px;">After trying various combinations, we opted for starting with a wall at 90 Degrees with the track, relative translation, and outward/normal randomness. This generated the most natural looking cliffs while still having some interesting formations.</p>
+
+	<p style="padding-left:30px;">Misc bugs related to terrain:<br />
+	- Level 1 and 2 jutted out into the road when the randomness was in the direction of the track . We set randomness to only be away from the track for these levels.</p>
+
+	<p style="padding-left:30px;">- The rock formations from either side of the road occasionally touched. To fix this, we shifted the walls slightly away from the track. It would be interesting however, to add in some rock bridges.</p>
+
+	<h4>Added Texture to the Terrain:</h4>
+
+	<p style="padding-left:30px;">The ideal mapping of the texture would be based on the area of each quad so the stretching would be even. This however would be very difficult to do. We tried various tileable textures however, it was not displaying well.  During this time, we were using  our Fixed Point Translation method stated above and also X/Y randomness. Although the terrain that was generated looked like what we wanted, we needed to alter our algorithms so that that the texture would look nice too.</p>
+
+	<p style="padding-left:30px;">Dr. Schulze recommended that we try to make a very high density graphic that wraps the whole track so the stretching would not affect the image as much. After creating a very large seamless and tileable image, we tried to apply it to the terrain. After trying to debug why the texture would not show up we found that t<span style="font-style:inherit;line-height:1.625;">he issue was due to a max texture size capability in openGL. Because of this, we opted for a smaller, but still very dense texture. This meant that we could not wrap a single image around the whole track, but to work around this, we implemented an algorithm to repeat textures in two dimensions. </span></p>
+
+	<p style="padding-left:30px;"><span style="font-style:inherit;line-height:1.625;">Because texture coordinates range from [0,1] in the X and Y components, we needed a way to break up the texture. We used similar algorithms as our track texture, however, this time we had another component to take care of. The track's texture spanned across the whole width of the track track and we only needed to take care of repeating the track texture. For the terrain texture, we implemented an algorithm </span><span style="font-style:inherit;line-height:1.625;">based on how maximum levels of terrain, current level, strips per texture in two different components,  This code would now allow us to to repeat the pattern upward and alongside the track making it easy to test what ratio worked.This code is also modular so whenever we altered the terrain, which was very often, it would still be functional. </span></p>
+
+	<p style="padding-left:30px;"><a href="CSE167imgs/ss.png"><img class="alignnone size-medium wp-image-56" alt="ss" src="CSE167imgs/ss.png" width="300" height="268" /></a></p>
+	
+	<h3>Problems Encountered:</h3>
+
+		<p>Track length, camera skip caused by the sides of the track being shorter than the curved sides, fixed by doubling length of sides.</p>
+		
+		<p style="padding-left:30px;"><a href="CSE167imgs/week2editmode1.png"><img class="alignnone size-medium wp-image-35" alt="week2editmode1" src="CSE167imgs/week2editmode1.png" width="300" height="300" /></a></p>
+		
+		<p>Car following track vs only being drawn stationary on screen</p>
+		
+		<p>Texture wrap-around bug -  Roughly every 10 strips of terrain, there would be one that was different than the others. At times, it would just be a line, and at other times, it seemed like it was a strip of texture. To fix this, whenever quad strip reached the end, we needed to redefine another set of vertices on top of it, but with new texture coordinates starting at 0.</p>
+		
+		<p>Bounding Boxes collision detection is a little slow due to the comparison with every object with the car every frame.  Could be optimized to only compare with objects on the current curve of the track.  This would also take care of the bug where it occasionally detects collision with a object off-screen or small somewhere down the road.</p>
+
+	<h3>Goals for Next Week:</h3>
+		<ol>
+			<li>Make car crash sequence</li>
+			<li>position the objects on the road randomly (currently all appear in center of road)</li>
+		</ol>
+</div>
+
+
+<div id="item4">
+	<h2>Week 3 (final week)</h2>
+
+	<h4>Video Link:</h4>
+		<a href="https://drive.google.com/file/d/0B_UM-vVgz-_EalNkUEUxWGNIMk0/edit?usp=sharing" target="_blank">https://drive.google.com/file/d/0B_UM-vVgz-_EalNkUEUxWGNIMk0/edit?usp=sharing</a>
+	
+	<h3>Technical Features Achieved:</h3>
+		<ul>
+			<li>Move Camera and/or objects along a bezier curve (2 points)
+			<ul>
+				<li> We achieved this with our camera, car, and fire exhaust particle effects moving along our bezier curve track</li>
+			</ul>
+			</li>
+
+			<li>Procedurally generated terrain (2 points)
+			<ul>
+				<li>done by generating the scenery on both sides of the track along the track as the camera moves</li>
+			</ul>
+			</li>
+
+			<li>Texturing complex surfaces (2 points)
+				<ul>
+					<li>textures for the road gravel/road lines, and the scenery</li>
+				</ul>
+			</li>
+
+			<li>Particle Effect (2 points)
+				<ul>
+					<li>car fire exhaust particle effect objects (x2)</li>
+				</ul>
+			</li>
+
+			<li>Collision Detection (1 point)
+				<ul>
+					<li>detection of when the car hits objects on the road</li>
+				</ul>
+			<li>
+		</ul>
+		<p>Total of: 9 points for our group of three.</p>
+
+	<strong>Per Surface Normals</strong>
+	<p style="padding-left:30px;">- Added initial normals calculated per surface</p>
+
+	<strong>Per Vertex Normals</strong>
+	<p style="padding-left:30px;">- Calculated per vertex normals using surrounding vertices<a href="CSE167imgs/tnormals.gif"><img class="alignnone size-medium wp-image-73" alt="tnormals" src="CSE167imgs/tnormals.gif" width="300" height="280" /></a></p>
+	<p style="padding-left:30px;">[Photo Credit: lighthouse3d]</p>
+
+	<strong>New Texture</strong>
+	<p style="padding-left:30px;">- Created new, less distracting, brown texture that emphasizes normals more</p>
+	<p style="padding-left:30px;"><a href="CSE167imgs/terrain.png"><img class="alignnone size-large wp-image-79" alt="Terrain" src="CSE167imgs/terrain.png" width="584" height="328" /></a></p>
+
+	<strong>Terrain Randomness modification</strong>
+
+	<strong>Smooth Steering</strong>
+
+	<strong>Variable Speed/FPS Limiter</strong>
+	<p style="padding-left:30px;">- Added FPS limiter to control speed of game</p>
+	<strong>HD/Square Dimensions</strong>
+	<p style="padding-left:30px;">- Added options to switch between square and rectangular windows</p>
+	<p style="padding-left:30px;"><a href="CSE167imgs/standard.png"><img class="alignnone size-full wp-image-77" alt="standard" src="CSE167imgs/standard.png" width="515" height="512" /></a></p>
+
+	<strong>3D Collision Detection</strong>
+	<p style="padding-left:30px;">- Switched to 3D detection</p>
+	<p style="padding-left:30px;">- Added crash message &amp; pause</p>
+	<p style="padding-left:30px;">- Added reset</p>
+	<p style="padding-left:30px;"><a href="CSE167imgs/crash.png"><img class="alignnone size-large wp-image-76" alt="crash" src="CSE167imgs/crash.png" width="584" height="329" /></a></p>
+
+	<strong>Moving Obstacles</strong>
+	<p style="padding-left:30px;">- Added code to shift the objects sideways on the track</p>
+
+	<p>Reference:  <a href="https://cse167project.wordpress.com">CSE167 Final project 2013</a></p>
+
+	<p><a href="#">Back to top of page</a>
+</div>
+
+</body>
+
+</html>

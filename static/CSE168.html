@@ -1,0 +1,189 @@
+<!doctype html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>HCI Project Portfolio - CSE168</title>
+
+	<style>
+	.container { position:relative; padding:0 0 0 105px; }
+	#sidebar {
+	    position:fixed;
+	    top:0; bottom:0; left:0;
+	    width:100px;
+	    background:#B8DBFF;
+	}
+
+	#item1 { border:1px solid #000;  
+	    margin:0 0 5px 0;
+	}
+	#item2 { border:1px solid #000; 
+	    margin:5px 0 5px 0;
+	}
+	#item3 { border:1px solid #000; 
+	    margin:5px 0 0 0;
+	}
+	</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+	<div id="sidebar">
+		<ul style="list-style-type: none; margin:0; padding:0;">
+		  <li><a href="index.html">Home</a></li>
+		  <li><a href="CSE167.html">CSE167</a></li>
+		  <li><a href="CSE168.html">CSE168</a></li>
+		  <ul style="list-style-type: none; margin:0; padding-left:10px;">
+			  <li><a href="#item1">Week 0</a></li>
+			  <li><a href="#item2">Week 1</a></li>
+			  <li><a href="#item3">Week 2</a></li>
+		  </ul>
+		  <li><a href="CSE169.html">CSE169</a></li>
+		  <li><a href="contact.html">Contact Info</a></li>
+		</ul>
+	</div>
+
+	<div>
+			<!-- this is a comment in HTML -->
+		<h1>CSE167project</h1> <!-- h1 through h5 are headers. The higher the number, the smaller the header -->
+
+		<p>Note: the images on this site are converted to .png from the original outputted .bmp.
+		</p>
+
+		<p>   Click on the images to enlarge</p>
+
+
+		<h4> Beer Lambert Law</h4>
+
+		<a href="CSE168imgs/fresnelfinal.png"><img class="alignnone size-medium wp-image-12" src="CSE168imgs/fresnelfinal.png?w=300" alt="fresnelFinal" width="300" height="225" /></a>
+
+		<h4>Procedural Textures</h4>
+		<ul>
+			<li>Started with 2D noise implementation.</li>
+			<li>Expanded to 3D to create solid textures.</li>
+			<li>Implemented by adding a texture class to the renderer and adding a texture field to objects and the scene.</li>
+			<li>on intersecting an object the object's texture pointer is added to a hit intersection</li>
+			<li>raytrace() checks to see if the texture is null.</li>
+			<li>The texture is displayed by scaling the material's color with the texture's noise function's result.</li>
+			<li>The textures use one of two noise functions, Perlin and Worley</li>
+			<li>I use perlin for textures that need more randomness and worley for ones that follow a pattern</li>
+		</ul>
+	</div>
+
+    <div id="item1">
+		<h4>Perlin Noise</h4>
+		<ul>
+		<ul>
+			<li>Based on java version found here: [embed]http://cs.nyu.edu/~perlin/noise/[/embed]</li>
+			<li>selects noise value based on a permutation table of values from 0 to 255</li>
+			<li>permutation table defaults to the table in the java implementation</li>
+			<li>the permutation table can also be randomly seeded in my implementation with PerlinNoise.seed(unsigned int)</li>
+			<li>Perlin Noise takes a Vector3 position and returns the noise value at that position in the range 0-1</li>
+			<li>Perlin Noise can be generated two ways.  The first is using the PerlinNoise.getNoise(Vector3) function</li>
+			<li>The second is PerlinNoise.turbulence(Vector3, float size), which returns smoothed noise.
+		<ul>
+			<li>Size is the initial amplitude, which is halved in a loop.</li>
+			<li>turbulence uses the getNoise function scaled by size and returns the added result</li>
+		</ul>
+		</li>
+		</ul>
+		</ul>
+		<a href="CSE168imgs/finalprojectnoise.png"><img class="alignnone size-full wp-image-10" src="CSE168imgs/finalprojectnoise.png" alt="FinalProjectNoise" width="80" height="60" /></a>
+		<ul>
+		<ul>
+			<li>Wood Texture
+		<ul>
+			<li>to create a wood texture, I use the following formula:</li>
+			<li>n = 20*PerlinNoise(position)</li>
+			<li>texture = n - floor(n);</li>
+		</ul>
+		</li>
+		</ul>
+		</ul>
+		<a href="CSE168imgs/finalproject_wood.png"><img class="wp-image-6 size-medium" src="CSE168imgs/finalproject_wood.png" alt="FinalProject_wood" align="middle" width="300" height="225" /></a> 
+		<figcaption>wood texture mapped to the ground</figcaption>
+
+		<ul>
+		<ul>
+			<li>Marble Texture
+		<ul>
+			<li>to create a marble texture, I use the following formula:</li>
+			<li>scale = position*period</li>
+			<li>noise = scale.x + scale.y + scale.z + power*turbulence(scale, size)</li>
+			<li>texture = abs ( sin(noise*PI) );</li>
+		</ul>
+		</li>
+		</ul>
+		</ul>
+		]<a href="CSE168imgs/finalproject_marble.png"><img class="wp-image-5 size-medium" src="CSE168imgs/finalproject_marble.png" alt="FinalProject_marble" width="300" height="225" /></a> 
+		<figcaption>marble texture mapped to the ground</figcaption>
+		<ul>
+		<ul>
+			<li>Cloud Texture
+		<ul>
+			<li>for the cloud texture, I simply return the result of the turbulence function.</li>
+			<li>texture = turbulence(pos, turbSize)</li>
+			<li>I use the cloud texture for the background skyColor by adding a texture field to the Scene() class</li>
+		</ul>
+		</li>
+		</ul>
+		</ul>
+		<a href="CSE168imgs/finalproject_cloud.png"><img class="wp-image-4 size-medium" src="CSE168imgs/finalproject_cloud.png" alt="FinalProject_cloud" width="300" height="225" /></a> 
+		<figcaption>Scene skyColor background texture</figcaption>
+    </div>
+    
+
+    <div id="item2">
+		<h4>Worley Noise</h4>
+		<ul>
+			<li>My implementation is based on the java version here:  [embed]http://aftbit.com/cell-noise-2/[/embed]</li>
+			<li>it has a function WorleyNoise.Noise(Vector3, int, int, std::vector&lt;float&gt;,int)</li>
+			<li>the parameters are the position of the noise to be evaluated, the seed for the random number generator, an int representing which distance function to use, a vector of the distances of features points from the position, and an int representing which combination of closest feature selection to use.</li>
+			<li>it uses a cube representation of the texture</li>
+			<li>generates a LCG random number (Linear congruential generator)</li>
+			<li>Determine a number of feature points</li>
+			<li>use Poisson distribution to randomly place the points in the cube</li>
+			<li>pick the closest point to the position inputed</li>
+		</ul>
+		<ul>
+			<li>Distances:
+		<ul>
+			<li>There are 3 choices for distance and combination functions</li>
+			<li>The Euclidian, Manhattan, and Chebyshev distance functions</li>
+			<li>the choice of:</li>
+			<li>D1 - return closest,</li>
+			<li>D2 - return 2nd_closest - closest,</li>
+			<li>and D3 - return 3rd_closest - closest</li>
+		</ul>
+		</li>
+		</ul>
+
+		<a href="CSE168imgs/finalproject_worley.png"><img class="wp-image-7 size-medium" src="CSE168imgs/finalproject_worley.png" alt="FinalProject_worley" width="300" height="225" /></a> 
+		<figcaption>Texture on the left Omanyte</figcaption>
+    </div>
+
+
+    <div id="item3">
+		<h4>Final image with 10 by 10 sampling and depth of 10</h4>
+		<ul>
+			<li> Left Omanyte: Worley Noise(Manhattan distance, D3 combining), Ashikhmin material</li>
+			<li>Center Omastar: Perlin Noise(Marble texture), Ashikhmin material</li>
+			<li>Right: Perline Noise(Wood texture), Ashikhmin material</li>
+			<li>Front Helix Fossil: Fresnel Material</li>
+			<li>Sky: Perlin Noise(cloud texture)</li>
+			<li>ground: Worley noise(Euclidian distance, D1 combining), Lambert Material</li>
+		</ul>
+		<a href="CSE168imgs/finalproject10by10.png"><img class="alignnone size-medium wp-image-16" src="CSE168imgs/finalproject10by10.png" alt="FinalProject10by10" width="300" height="225" /></a>
+
+		<p>Reference:  <a href="https://cse168projectsp2014.wordpress.com">CSE168 Final project 2014</a></p>
+		<p><a href="#">Back to top of page</a>
+    </div>
+</div>
+
+</body>
+
+</html>
