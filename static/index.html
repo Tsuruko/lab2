@@ -3,10 +3,16 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name-"viewport" contenct-"width=device-width, initial-scale=1.0">
 	<title>HCI Project Portfolio</title>
 
+	<link href="css/introHCI.css" rel="stylesheet">
+	<link href="css/navibar.css" rel="stylesheet">
+
 	<style>
+
 	.container { position:relative; padding:0 0 0 105px; }
+	
 	#sidebar {
 	    position:fixed;
 	    top:0; bottom:0; left:0;
@@ -42,20 +48,43 @@
 
 	<div>
 		<!-- this is a comment in HTML -->
-		<h1>Monica Liu</h1> <!-- h1 through h5 are headers. The higher the number, the smaller the header -->
-		<h4>Project Portfolio</h4>
-
-		<!-- p means paragraph -->
-		<p>Monica Liu is a 4th year Computer Science undergrad student at UCSD.</p>
-
-		<p>Github: <a href="https://github.com/Tsuruko">https://github.com/Tsuruko</a>
+		
+		<div class="jumbotron">
+		<h1>Monica Liu</h1> 
+			<p>Monica Liu is a 4th year Computer Science undergrad student at UCSD.</p>
+		</div>
 
 		<h4>Projects</h4>
-		<ol>
-			<li><a href="CSE167.html">CSE167 project - Kart Mania</a></li>
-			<li><a href="CSE168.html">CSE168 project - C++ Renderer</a></li>
-			<li><a href="CSE168.html">CSE169 project - Computer Animation</a></li>
+		
+		<div class = "project" id ="project1">
+			<a href="CSE167.html">
+				<img class="thumbnail" src="CSE167imgs/terrain.png" width=50/>
+				<p>CSE167 project - Kart Mania </p>
+
+			</a>
+		</div>
+		
+		<div class = "project" id="project2">
+			<a href="CSE168.html">
+				<img class ="thumbnail" src="CSE168imgs/finalproject10by10.png" width=50 />
+				<p>CSE168 project - C++ Renderer</p>
+			</a>
+		</div>
+
+		<div class ="project" id ="project3">
+			<a href="CSE168.html">CSE169 project - Computer Animation
+
+			</a>
+		</div>
+
 		</ol>
+	</div>
+
+
+	<div class="contact-info" >
+		<p>Github: https://github.com/Tsuruko</a>
+
+		<p> Email: liu.mona.c@gmail.com </p>
 	</div>
 
 </body>
